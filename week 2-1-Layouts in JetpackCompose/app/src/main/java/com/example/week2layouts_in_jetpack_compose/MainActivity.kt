@@ -9,9 +9,9 @@ import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Card
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
@@ -139,25 +139,25 @@ fun ChipPreview() {
     }
 }
 
-//@Composable
-//fun LayoutsCodelab() {
-//    Scaffold (
-//        topBar = {
-//            TopAppBar (
-//                title = {
-//                    Text(text = "LayoutsCodelab")
-//                },
-//                actions = {
-//                    IconButton(onClick = { } ) {
-//                        Icon(Icons.Filled.Favorite, contentDescription = null)
-//                    }
-//                }
-//            )
-//        }
-//    ) { innerPadding ->
-//        BodyContent(modifier = Modifier.padding(innerPadding))
-//    }
-//}
+@Composable
+fun LayoutsCodelab() {
+    Scaffold (
+        topBar = {
+            TopAppBar (
+                title = {
+                    Text(text = "LayoutsCodelab")
+                },
+                actions = {
+                    IconButton(onClick = { } ) {
+                        Icon(Icons.Filled.Favorite, contentDescription = null)
+                    }
+                }
+            )
+        }
+    ) { innerPadding ->
+        BodyContent(modifier = Modifier.padding(innerPadding))
+    }
+}
 //
 //@Composable
 //fun BodyContent(modifier: Modifier = Modifier) {
