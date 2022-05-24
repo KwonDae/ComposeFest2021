@@ -181,7 +181,7 @@ fun LayoutsCodelab() {
 //fun ImageList() {
 //    val scrollState = rememberLazyListState()
 //
-//    LazyColumn(state = scrollState) {
+//    LazyColumn(state =  scrollState) {
 //        items(100) {
 //            ImageListItem(it)
 //        }
