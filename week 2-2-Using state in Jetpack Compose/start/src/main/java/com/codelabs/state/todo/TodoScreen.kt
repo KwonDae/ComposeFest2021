@@ -53,7 +53,7 @@ fun TodoScreen(
     Column {
         // TodoItemInputBackground 및 TodoItem을 TodoScreen 상단에 추가한다.
         TodoItemInputBackground(elevate = true, modifier = Modifier.fillMaxWidth()) {
-            TodoItemInput(onItemComplete = onAddItem)
+            TodoItemEntryInput(onItemComplete = onAddItem)
         }
         LazyColumn(
             modifier = Modifier.weight(1f),
@@ -112,8 +112,12 @@ private fun randomTint(): Float {
     return Random.nextFloat().coerceIn(0.3f, 0.9f)
 }
 
+/**
+ * 상태가 있는 StateFul 함수
+ * Stateful 함수에는 UI 관련 코드가 없다
+ */
 @Composable
-fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
+fun TodoItemEntryInput(onItemComplete: (TodoItem) -> Unit) {
     // onItemComplete은 이벤트로써 사용자에 의해 아이템이 완료 될 때 호출된다.
     // val(value, setValue) = { mutableStateof(default) }
     val (text, setText) = remember { mutableStateOf("") }
@@ -124,6 +128,30 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         setIcon(TodoIcon.Default)
         setText("")
     }
+    TodoItemInput(
+        text = text,
+        onTextChange = setText,
+        icon = icon,
+        onIconChange = setIcon,
+        submit = submit,
+        iconsVisible = iconsVisible
+    )
+}
+
+/**
+ * TodoItemInput 함수에서 Stateless, Stateful 분리하면서 생긴
+ * Stateless 함수
+ * Stateless 컴포저블에는 모든 UI 관련 코드가 있다.
+ */
+@Composable
+fun TodoItemInput(
+    text: String,
+    onTextChange: (String) -> Unit,
+    icon: TodoIcon,
+    onIconChange: (TodoIcon) -> Unit,
+    submit: () -> Unit,
+    iconsVisible: Boolean
+) {
     Column {
         Row(
             Modifier
@@ -132,7 +160,7 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
         ) {
             TodoInputText(
                 text = text,
-                onTextChange = setText,
+                onTextChange = onTextChange,
                 modifier = Modifier
                     .weight(1f)
                     .padding(end = 8.dp),
@@ -142,10 +170,11 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
                 onClick = submit,
                 text = "Add",
                 modifier = Modifier.align(Alignment.CenterVertically),
-                enabled = text.isNotBlank())
+                enabled = text.isNotBlank()
+            )
         }
-        if(iconsVisible) {
-            AnimatedIconRow(icon, setIcon, Modifier.padding(top = 8.dp))
+        if (iconsVisible) {
+            AnimatedIconRow(icon, onIconChange, Modifier.padding(top = 8.dp))
         } else {
             Spacer(modifier = Modifier.height(16.dp))
         }
@@ -154,7 +183,7 @@ fun TodoItemInput(onItemComplete: (TodoItem) -> Unit) {
 
 @Preview
 @Composable
-fun PreviewTodoItemInput() = TodoItemInput(onItemComplete = { })
+fun PreviewTodoItemInput() = TodoItemEntryInput(onItemComplete = { })
 
 
 @Preview
