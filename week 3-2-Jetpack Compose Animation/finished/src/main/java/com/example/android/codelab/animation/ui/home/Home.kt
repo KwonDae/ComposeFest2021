@@ -21,20 +21,7 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.animation.animateColor
 import androidx.compose.animation.animateColorAsState
 import androidx.compose.animation.animateContentSize
-import androidx.compose.animation.core.Animatable
-import androidx.compose.animation.core.FastOutLinearInEasing
-import androidx.compose.animation.core.LinearOutSlowInEasing
-import androidx.compose.animation.core.RepeatMode
-import androidx.compose.animation.core.Spring
-import androidx.compose.animation.core.animateDp
-import androidx.compose.animation.core.animateFloat
-import androidx.compose.animation.core.calculateTargetValue
-import androidx.compose.animation.core.infiniteRepeatable
-import androidx.compose.animation.core.keyframes
-import androidx.compose.animation.core.rememberInfiniteTransition
-import androidx.compose.animation.core.spring
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.core.updateTransition
+import androidx.compose.animation.core.*
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
 import androidx.compose.animation.splineBasedDecay
@@ -124,6 +111,8 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.math.absoluteValue
 import kotlin.math.roundToInt
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.setValue
 
 private enum class TabPage {
     Home, Work
@@ -140,6 +129,7 @@ fun Home() {
 
     // The currently selected tab.
     var tabPage by remember { mutableStateOf(TabPage.Home) }
+//    var tabPage by remember { MutableTransitionState(TabPage.Work)}
 
     // True if the whether data is currently loading.
     var weatherLoading by remember { mutableStateOf(false) }
@@ -477,6 +467,13 @@ private fun HomeTabIndicator(
         tabPage,
         label = "Tab indicator"
     )
+
+    val transition2 = rememberInfiniteTransition()
+
+    val currentState = remember { MutableTransitionState(TabPage.Home)}
+    currentState.targetState = TabPage.Work
+//    val transition = updateTransition(targetState = currentState)
+
     val indicatorLeft by transition.animateDp(
         transitionSpec = {
             if (TabPage.Home isTransitioningTo TabPage.Work) {
